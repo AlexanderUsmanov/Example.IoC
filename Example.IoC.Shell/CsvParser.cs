@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Example.IoC.Shell
 {
-    public class CsvParser
+    public class CsvParser : ICsvParser
     {
         public List<User> ParseUsers(TextReader textReader)
         {

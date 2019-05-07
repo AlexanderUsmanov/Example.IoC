@@ -2,7 +2,7 @@
 
 namespace Example.IoC.Shell
 {
-    public class SystemTimeService
+    public class SystemTimeService : ITimeService
     {
         public DateTime GetNow()
         {

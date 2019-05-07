@@ -2,7 +2,7 @@
 
 namespace Example.IoC.Shell
 {
-    public class ConsoleUserPrinter
+    public class ConsoleUserPrinter : IUserPrinter
     {
         public void PrintUserToConsole(User user)
         {

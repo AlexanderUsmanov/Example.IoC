@@ -3,11 +3,11 @@ using System.IO;
 
 namespace Example.IoC.Shell
 {
-    public class CsvUserLoader
+    public class CsvUserLoader : IUserLoader
     {
         public List<User> LoadUsersFromCsv()
         {
-            CsvParser csvParser = new CsvParser();
+            ICsvParser csvParser = new CsvParser();
             using (TextReader textReader = File.OpenText("Users.csv"))
             {
                 return csvParser.ParseUsers(textReader);

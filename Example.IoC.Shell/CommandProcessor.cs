@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace Example.IoC.Shell
 {
@@ -9,9 +7,9 @@ namespace Example.IoC.Shell
     {
         public void PrintUsersWithBirthdayToday()
         {
-            CsvUserLoader userLoader = new CsvUserLoader();
-            SystemTimeService systemTimeService = new SystemTimeService();
-            ConsoleUserPrinter userPrinter = new ConsoleUserPrinter();
+            IUserLoader userLoader = new CsvUserLoader();
+            ITimeService systemTimeService = new SystemTimeService();
+            IUserPrinter userPrinter = new ConsoleUserPrinter();
             
             List<User> users = userLoader.LoadUsersFromCsv();
             DateTime now = systemTimeService.GetNow();
