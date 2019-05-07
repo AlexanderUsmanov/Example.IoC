@@ -1,4 +1,5 @@
 ﻿using System;
+using SimpleInjector;
 
 namespace Example.IoC.Shell
 {
@@ -6,14 +7,24 @@ namespace Example.IoC.Shell
     {
         static void Main(string[] args)
         {
-            IUserLoader userLoader = new CsvUserLoader(new CsvParser());
-            ITimeService timeService = new SystemTimeService();
-            IUserPrinter userPrinter = new ConsoleUserPrinter();
+            SimpleInjector.Container container = new SimpleInjector.Container();
+            ConfigureContainer(container);
 
-            CommandProcessor commandProcessor = new CommandProcessor(userLoader, timeService, userPrinter);
+            CommandProcessor commandProcessor = container.GetInstance<CommandProcessor>();
             commandProcessor.PrintUsersWithBirthdayToday();
 
             Console.ReadLine();
+        }
+
+        private static void ConfigureContainer(SimpleInjector.Container container)
+        {
+            container.Register<IUserLoader, CsvUserLoader>();
+            container.Register<ITimeService, SystemTimeService>();
+            container.Register<IUserPrinter, ConsoleUserPrinter>();
+            container.Register<ICsvParser, CsvParser>();
+            container.Register<CommandProcessor>();
+
+            container.Verify();
         }
     }
 }

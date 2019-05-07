@@ -1,6 +1,7 @@
 ﻿using System;
 using Example.IoC.Shell;
 using NUnit.Framework;
+using SimpleInjector;
 
 namespace Example.IoC.Tests
 {
@@ -14,11 +15,27 @@ namespace Example.IoC.Tests
         [SetUp]
         public void Setup()
         {
+            SimpleInjector.Container container = new SimpleInjector.Container();
+            ConfigureContainer(container);
+
+            commandProcessor = new CommandProcessor(userLoader, timeService, userPrinter);
+        }
+
+        private void ConfigureContainer(SimpleInjector.Container container)
+        {
             timeService = new TestTimeService();
             userLoader = new TestUserLoader();
             userPrinter = new TestUserPrinter();
 
-            commandProcessor = new CommandProcessor(userLoader, timeService, userPrinter);
+            container.RegisterSingleton<IUserLoader>(() => userLoader);
+
+            container.RegisterSingleton(typeof(ITimeService), () => timeService);
+
+            container.Register<IUserPrinter>(() => userPrinter, SimpleInjector.Lifestyle.Singleton);
+
+            container.Register<CommandProcessor>();
+
+            container.Verify();
         }
 
         [Test]
