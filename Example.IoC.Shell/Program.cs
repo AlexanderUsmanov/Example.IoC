@@ -7,7 +7,7 @@ namespace Example.IoC.Shell
         static void Main(string[] args)
         {
             var commandProcessor = new CommandProcessor();
-            commandProcessor.Process();
+            commandProcessor.PrintUsersWithBirthdayToday();
 
             Console.ReadLine();
         }
