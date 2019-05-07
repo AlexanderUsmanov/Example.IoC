@@ -28,6 +28,11 @@ namespace Example.IoC.Shell.Abstractions
             return (T)instances[typeof(T)];
         }
 
+        public void Reset()
+        {
+            instances.Clear();
+        }
+
         public static ServiceLocator Singleton = new ServiceLocator();
     }
 }
