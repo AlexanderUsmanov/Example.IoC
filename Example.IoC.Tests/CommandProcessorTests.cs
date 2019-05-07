@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using Example.IoC.Shell;
-using Example.IoC.Shell.Abstractions;
 using NUnit.Framework;
 
 namespace Example.IoC.Tests
@@ -21,12 +18,7 @@ namespace Example.IoC.Tests
             userLoader = new TestUserLoader();
             userPrinter = new TestUserPrinter();
 
-            ServiceLocator.Singleton.Reset();
-            ServiceLocator.Singleton.Add<ITimeService>(timeService);
-            ServiceLocator.Singleton.Add<IUserLoader>(userLoader);
-            ServiceLocator.Singleton.Add<IUserPrinter>(userPrinter);
-
-            commandProcessor = new CommandProcessor();
+            commandProcessor = new CommandProcessor(userLoader, timeService, userPrinter);
         }
 
         [Test]

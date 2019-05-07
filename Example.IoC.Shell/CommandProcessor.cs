@@ -1,24 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using Example.IoC.Shell.Abstractions;
 
 namespace Example.IoC.Shell
 {
     public class CommandProcessor
     {
+        private readonly IUserLoader _userLoader;
+        private readonly ITimeService _timeService;
+        private readonly IUserPrinter _userPrinter;
+
+        public CommandProcessor(
+            IUserLoader userLoader,
+            ITimeService timeService,
+            IUserPrinter userPrinter
+        )
+        {
+            _userLoader = userLoader;
+            _timeService = timeService;
+            _userPrinter = userPrinter;
+        }
+
         public void PrintUsersWithBirthdayToday()
         {
-            IUserLoader userLoader = ServiceLocator.Singleton.Get<IUserLoader>();
-            ITimeService systemTimeService = ServiceLocator.Singleton.Get<ITimeService>();
-            IUserPrinter userPrinter = ServiceLocator.Singleton.Get<IUserPrinter>();
-
-            List<User> users = userLoader.LoadUsersFromCsv();
-            DateTime now = systemTimeService.GetNow();
+            List<User> users = _userLoader.LoadUsersFromCsv();
+            DateTime now = _timeService.GetNow();
             foreach (User user in users)
             {
                 if (user.HasBirthdayNow(now))
                 {
-                    userPrinter.PrintUserToConsole(user);
+                    _userPrinter.PrintUserToConsole(user);
                 }
             }
         }

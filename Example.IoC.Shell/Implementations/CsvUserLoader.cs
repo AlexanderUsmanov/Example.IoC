@@ -5,12 +5,18 @@ namespace Example.IoC.Shell
 {
     public class CsvUserLoader : IUserLoader
     {
+        private readonly ICsvParser _csvParser;
+
+        public CsvUserLoader(ICsvParser csvParser)
+        {
+            _csvParser = csvParser;
+        }
+
         public List<User> LoadUsersFromCsv()
         {
-            ICsvParser csvParser = new CsvParser();
             using (TextReader textReader = File.OpenText("Users.csv"))
             {
-                return csvParser.ParseUsers(textReader);
+                return _csvParser.ParseUsers(textReader);
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Example.IoC.Shell.Abstractions;
 
 namespace Example.IoC.Shell
 {
@@ -7,21 +6,14 @@ namespace Example.IoC.Shell
     {
         static void Main(string[] args)
         {
-            ConfigureServiceLocator(ServiceLocator.Singleton);
+            IUserLoader userLoader = new CsvUserLoader(new CsvParser());
+            ITimeService timeService = new SystemTimeService();
+            IUserPrinter userPrinter = new ConsoleUserPrinter();
 
-            CommandProcessor commandProcessor = ServiceLocator.Singleton.Get<CommandProcessor>();
+            CommandProcessor commandProcessor = new CommandProcessor(userLoader, timeService, userPrinter);
             commandProcessor.PrintUsersWithBirthdayToday();
 
             Console.ReadLine();
-        }
-
-        private static void ConfigureServiceLocator(ServiceLocator sl)
-        {
-            sl.Add<CommandProcessor>(new CommandProcessor());
-            sl.Add<IUserLoader>(new CsvUserLoader());
-            sl.Add<ITimeService>(new SystemTimeService());
-            sl.Add<IUserPrinter>(new ConsoleUserPrinter());
-            sl.Add<ICsvParser>(new CsvParser());
         }
     }
 }
