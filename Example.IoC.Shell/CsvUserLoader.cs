@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace Example.IoC.Shell
@@ -8,30 +7,11 @@ namespace Example.IoC.Shell
     {
         public List<User> LoadUsersFromCsv()
         {
-            List<User> result = new List<User>();
-
-            using (StreamReader streamReader = File.OpenText("Users.csv"))
+            CsvParser csvParser = new CsvParser();
+            using (TextReader textReader = File.OpenText("Users.csv"))
             {
-                while (true)
-                {
-                    String line = streamReader.ReadLine();
-                    if (String.IsNullOrEmpty(line))
-                    {
-                        break;
-                    }
-
-                    String[] lineParts = line.Split(';');
-                    User user = new User
-                    {
-                        Name = lineParts[0],
-                        Email = lineParts[1],
-                        Birthday = DateTime.Parse(lineParts[2])
-                    };
-                    result.Add(user);
-                }
+                return csvParser.ParseUsers(textReader);
             }
-
-            return result;
         }
     }
 }
