@@ -26,5 +26,12 @@ namespace Example.IoC.Shell
 
             container.Verify();
         }
+
+        private static void ConfigureContainerByPackages(SimpleInjector.Container container)
+        {
+            container.RegisterPackages(new [] { typeof(Program).Assembly });
+
+            container.Verify();
+        }
     }
 }
